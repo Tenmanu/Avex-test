@@ -4,6 +4,7 @@
 {{ 'component-price.css' | asset_url | stylesheet_tag }}
 {{ 'component-discounts.css' | asset_url | stylesheet_tag }}
 {{ 'quantity-popover.css' | asset_url | stylesheet_tag }}
+{{ 'cart-upsell.css' | asset_url | stylesheet_tag }}
 
 {%- style -%}
   .section-{{ section.id }}-padding {
@@ -82,7 +83,6 @@
                   <tr class="cart-item" id="CartItem-{{ item.index | plus: 1 }}">
                     <td class="cart-item__media">
                       {% if item.image %}
-                        {% comment %} Leave empty space due to a:empty CSS display: none rule {% endcomment %}
                         <a href="{{ item.url }}" class="cart-item__link" aria-hidden="true" tabindex="-1"> </a>
                         <div class="cart-item__image-container gradient global-media-settings">
                           <img
@@ -444,12 +444,35 @@
         aria-live="polite"
         aria-hidden="true"
         role="status"
-      >
+      > 
         {{ 'accessibility.loading' | t }}
       </p>
     </form>
+
+    {%- if cart != empty -%}
+      {%- assign first_item = cart.items.first -%}
+      <div
+        id="cart-related-products"
+        class="cart-upsell"
+        data-current-product="{{ first_item.product.id }}"
+        data-cart-product-ids="{{ cart.items | map: 'product_id' | join: ',' }}"
+      >
+        <div class="cart-upsell__header">
+          <span class="cart-upsell__eyebrow">Complete your order</span>
+          <h2 class="cart-upsell__heading">You may also like</h2>
+        </div>
+        <table class="cart-items">
+          <caption class="visually-hidden">Recommended products</caption>
+          <tbody id="cart-upsell-track">
+            {%- comment -%} Populated by cart-upsell.js {%- endcomment -%}
+          </tbody>
+        </table>
+      </div>
+    {%- endif -%}
   </div>
 </cart-items>
+
+<script src="{{ 'cart-upsell.js' | asset_url }}" defer="defer"></script>
 
 {% schema %}
 {
