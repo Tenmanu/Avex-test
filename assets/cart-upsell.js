@@ -98,7 +98,7 @@
       const cur = document.querySelector(sel);
       if (inc && cur) cur.innerHTML = inc.innerHTML;
     });
-
+ 
     // Update header cart count badge
     doc.querySelectorAll('.cart-count-bubble').forEach((inc, i) => {
       const cur = document.querySelectorAll('.cart-count-bubble')[i];
