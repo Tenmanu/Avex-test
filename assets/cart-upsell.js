@@ -98,7 +98,7 @@
       const cur = document.querySelector(sel);
       if (inc && cur) cur.innerHTML = inc.innerHTML;
     });
- 
+
     // Update header cart count badge
     doc.querySelectorAll('.cart-count-bubble').forEach((inc, i) => {
       const cur = document.querySelectorAll('.cart-count-bubble')[i];
@@ -158,6 +158,16 @@
           ${priceHTML}
           ${optionsHTML ? `<dl>${optionsHTML}</dl>` : ''}
           ${descHTML}
+        </td>
+        <td class="cart-item__quantity">
+          <div class="cart-item__quantity-wrapper">
+            <button
+              class="cart-upsell__add-btn button"
+              data-variant-id="${variant.id}"
+              aria-label="Add ${esc(product.title)} to cart"
+              ${variant.available ? '' : 'disabled'}
+            >${variant.available ? 'Add to cart' : 'Sold out'}</button>
+          </div>
         </td>
       </tr>`;
   }
